@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import GPS from 'gps';
 
-function GeoLocation() {
-  const [coords, setCoords] = useState({ latitude: null, longitude: null,satellites:null });
+const gps = new GPS;
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        setCoords({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          satellites: position.coords.satellites
-        });
-      },
-      error => console.log(error)
-    );
-  }, []);
+// ...
 
-  return (
-    <div>
-      <h2>Tu ubicación actual:</h2>
-      <p>Latitud: {coords.latitude}</p>
-      <p>Longitud: {coords.longitude}</p>
-      <p>Número de satélites: {coords.satellites}</p>
-    </div>
-  );
-}
+gps.on('data', (data) => {
+  console.log(data);
+  console.log(data.satellitesInView.length); // Número de satélites
+});
 
-export default GeoLocation;
+navigator.geolocation.watchPosition(
+  (position) => {
+    gps.updatePosition(position.coords.latitude, position.coords.longitude);
+  },
+  (error) => {
+    console.log(error);
+  },
+  { enableHighAccuracy: true }
+);
+
+export default gps
