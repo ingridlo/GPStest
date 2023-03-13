@@ -1,37 +1,40 @@
-import React, { useEffect, useState } from "react";
-import GPS from "gps";
+import React, { useState, useEffect } from 'react';
+import Geolocation from 'react-native-geolocation-service';
 
-const App = () => {
-  const [gpsData, setGpsData] = useState(null);
-  const [gps, setGps] = useState(null);
+function App() {
+  const [satelliteCount, setSatelliteCount] = useState(null);
 
   useEffect(() => {
-    const gps = new GPS();
-    setGps(gps);
-
-    gps.on("data", (parsed) => {
-      setGpsData(parsed);
+    // Pide permiso para acceder a la ubicación del usuario
+    Geolocation.requestAuthorization('whenInUse').then((granted) => {
+      if (granted) {
+        // Obtiene la ubicación del usuario
+        Geolocation.getCurrentPosition(
+          (position) => {
+            // Obtiene información sobre los satélites GPS visibles
+            Geolocation.getGpsStatus((status) => {
+              const count = status && status.satellites && status.satellites.length;
+              setSatelliteCount(count);
+            });
+          },
+          (error) => {
+            console.log(error.code, error.message);
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+        );
+      } else {
+        console.log('Location permission not granted');
+      }
     });
-
-    return () => {
-      gps.removeAllListeners();
-    };
   }, []);
 
   return (
     <div>
-      {gpsData && (
-        <div>
-          Latitude: {gpsData.lat} <br />
-          Longitude: {gpsData.lon} <br />
-          Altitude: {gpsData.alt} <br />
-          Speed: {gpsData.speed} <br />
-          Course: {gpsData.course} <br />
-          Time: {gpsData.time} <br />
-        </div>
-      )}
+      <p>Number of GPS satellites: {satelliteCount}</p>
     </div>
   );
-};
+}
 
 export default App;
+
+

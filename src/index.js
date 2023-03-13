@@ -1,7 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-//import gps from './components/geo';
+
+
+// const SatellitesAbove = require('satellites-above');
+ 
+// let satellites = new SatellitesAbove();
+// satellites
+// .load({download: true})
+// .then(() => {
+//     let sats = satellites.above(52.520645, 13.409779);
+//     console.log(sats);
+// });
+
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -34,6 +45,3 @@ createRoot(document.getElementById('root')).render(
 //   const nmea = `$GPGGA,${timestamp},${lat.toFixed(4)},N,${lon.toFixed(4)},W,1,08,1.0,${altitude.toFixed(1)},M,,-33.7,M,,`;
 //   gps.update(nmea);
 // }
-
-
-
