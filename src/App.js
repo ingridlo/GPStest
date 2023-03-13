@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [NMEA, setNMEA] = useState(null);
-
-  function showPosition(position) {
-    const NMEA = position.coords.altitudeAccuracy;
-    setNMEA(NMEA);
-  }
+  const [position, setPosition] = useState(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+      navigator.geolocation.watchPosition(showLocation);
     } else {
-      console.log("Geolocation is not supported by this browser.");
+      alert('El navegador no dispone la capacidad de geolocalización');
     }
   }, []);
 
+  function showLocation(position) {
+    setPosition(position.coords.accuracy);
+    //console.log(`Actualización de posición recibida: lat=${lat}, lon=${lon}, altitude=${altitude}`);
+    //const timestamp = new Date(position.timestamp).toISOString().replace(/\..+/, '');
+    //const nmea = `$GPGGA,${timestamp},${lat.toFixed(4)},N,${lon.toFixed(4)},W,1,08,1.0,${altitude.toFixed(1)},M,,-33.7,M,,`;
+    //gps.update(nmea);
+  }
+
   return (
     <div>
-      {NMEA !== null ? (
-        <p>NMEA: {NMEA}</p>
+      {position ? (
+        <p>Precision: {position}</p>
       ) : (
         <p>Retrieving geolocation data...</p>
       )}
