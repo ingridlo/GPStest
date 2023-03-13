@@ -3,15 +3,23 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 
 
-// const SatellitesAbove = require('satellites-above');
- 
-// let satellites = new SatellitesAbove();
-// satellites
-// .load({download: true})
-// .then(() => {
-//     let sats = satellites.above(52.520645, 13.409779);
-//     console.log(sats);
+
+// import GPS from 'gps';
+
+
+// var gps = new GPS ();
+
+// var sentence = '$GPGGA,224900.000,4832.3762,N,00903.5393,E,1,04,7.8,498.6,M,48.0,M,,0000*5E';
+
+// gps.on('data', function(parsed) {
+
+//   console.log(parsed);
 // });
+
+// gps.update(sentence);
+
+
+
 
 
 createRoot(document.getElementById('root')).render(
