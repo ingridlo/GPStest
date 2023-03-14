@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div>
-      {accuracy && <p>Precision: {accuracy}</p>}
+      {accuracy && <p>Precision: {accuracy.toFixed(2)}</p>}
     </div>
   );
 }
